@@ -1,0 +1,29 @@
+
+sensor:
+  - platform: rest
+    name: "bme280"
+    scan_interval: 300
+    json_attributes:
+      - temperature
+      - atmosphericPressure
+      - humidity
+    resource: "http://10.1.20.21:80/"
+#    value_template: "{{ value_json.temperature }}"
+
+  - platform: template
+    sensors:
+      bme280temp:
+        friendly_name: "Temperature"
+        value_template: "{{ state_attr('sensor.bme280', 'temperature')}}"
+        unit_of_measurement: "°C"
+        device_class: temperature
+      bme280hum:
+        friendly_name: "Hummidity"
+        value_template: "{{ state_attr('sensor.bme280', 'humidity')}}"
+        unit_of_measurement: "%"
+        device_class: humidity
+      bme280mmhg:
+        friendly_name: "Atmospheric Pressure"
+        value_template: "{{ state_attr('sensor.bme280', 'atmosphericPressure')}}"
+        unit_of_measurement: "mmHg"
+        device_class: pressure
